@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 # Cargar el modelo y el scaler
 model = load_model('RNA_model.h5')
+
 scaler = joblib.load('scaler.pkl')
 
 @app.route('/')
