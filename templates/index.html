@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RNA Predictor</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Fondo opaco */
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Red Neuronal - Predicción</h1>
+            <form action="/predict" method="post">
+                <label for="Pclass">Pclass:</label>
+                <input type="number" name="Pclass" required><br>
+                
+                <label for="Age">Age:</label>
+                <input type="number" step="any" name="Age" required><br>
+                
+                <label for="Fare">Fare:</label>
+                <input type="number" step="any" name="Fare" required><br>
+                
+                <label for="SibSp">SibSp:</label>
+                <input type="number" name="SibSp" required><br>
+                
+                <label for="Parch">Parch:</label>
+                <input type="number" name="Parch" required><br>
+                
+                <label for="Sex">Sex (0 = Male, 1 = Female):</label>
+                <input type="number" name="Sex" required><br>
+                
+                <label for="Embarked">Embarked (1 = C, 2 = Q, 3 = S):</label>
+                <input type="number" name="Embarked" required><br>
+                
+                <button type="submit">Predecir</button>
+            </form>
+
+            <!-- El Modal donde se mostrará el resultado -->
+            <div id="predictionModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>{{ prediction }}</h2>
+                    <button class="close">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir el modal
+        function openModal() {
+            document.getElementById("predictionModal").style.display = "block";
+        }
+
+        // Función para cerrar el modal
+        function closeModal() {
+            document.getElementById("predictionModal").style.display = "none";
+        }
+
+        // Mostrar el modal solo si hay un mensaje de predicción
+        window.onload = function() {
+            var prediction = "{{ prediction }}";
+            if (prediction) {
+                openModal();
+            }
+        };
+
+        // Cuando el usuario haga clic en "X" o en el botón "Cerrar", cerrar el modal
+        var closeButtons = document.getElementsByClassName("close");
+        for (var i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = closeModal;
+        }
+
+        // Cerrar el modal si el usuario hace clic fuera del contenido del modal
+        window.onclick = function(event) {
+            var modal = document.getElementById("predictionModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
