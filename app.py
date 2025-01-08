@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import joblib
+import os
 
 app = Flask(__name__)
 
@@ -51,4 +52,6 @@ def predict():
         return jsonify({'error': f"Faltó el campo {str(e)} en el formulario."}), 400
 
 if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))  # Usa el puerto especificado por Railway
+    app.run(host='0.0.0.0', port=port, debug=True)
     app.run(debug=True)
